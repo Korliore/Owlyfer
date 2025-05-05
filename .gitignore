@@ -116,3 +116,4 @@ dmypy.json
 *.db
 settings.ini
 logs/
+.idea/
