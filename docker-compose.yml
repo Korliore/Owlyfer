@@ -12,18 +12,35 @@ services:
       - owlyfer_lan
     depends_on:
       - postgres
+      - mongo
 
-  postgres:
+  postgres_owlyfer:
     image: postgres:alpine
-    container_name: postgres
+    env_file:
+      - .env
+    container_name: postgres_owlyfer
     networks:
       - owlyfer_lan
     volumes:
       - owlyfer_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${postgres_username}
+      POSTGRES_PASSWORD: ${postgres_password}
+      POSTGRES_DB: ${postgres_db}
+
+  mongo:
+    image: mongo:latest
+    env_file:
+      - .env
+    container_name: mongo_owlyfer
+    networks:
+      - owlyfer_lan
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${mongo_username}
+      MONGO_INITDB_ROOT_PASSWORD: ${mongo_password}
+      MONGO_INITDB_DATABASE: ${mongo_db}
 
 networks:
   owlyfer_lan:
@@ -31,3 +48,4 @@ networks:
 
 volumes:
   owlyfer_data:
+  mongo_data:

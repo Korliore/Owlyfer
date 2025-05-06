@@ -6,26 +6,20 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from utils.log_worker import Logger
 from utils.db_worker import DBWorker
-from utils.settings_loader import (
-    BOT_TOKEN,
-    MONGODB_HOST,
-    MONGODB_PORT,
-    MONGODB_USERNAME,
-    MONGODB_PASSWORD,
-)
+from utils.settings_loader import telegram, mongodb, app_settings
 from db import DBSessionMiddleware, async_session_factory
 
 
 try:
-    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    bot = Bot(token=telegram.bot_token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     client = AsyncIOMotorClient(
-        host=MONGODB_HOST,
-        port=MONGODB_PORT,
-        username=MONGODB_USERNAME,
-        password=MONGODB_PASSWORD,
+        host=mongodb.host,
+        port=mongodb.port,
+        username=mongodb.username,
+        password=mongodb.password,
         connect=True,
     )
-    dp = Dispatcher(storage=MongoStorage(client=client, db_name="owlyfer"))
+    dp = Dispatcher(storage=MongoStorage(client=client, db_name=mongodb.db_name))
     dp.message.middleware(DBSessionMiddleware(async_session_factory))
     db = DBWorker()
 except Exception as ex:

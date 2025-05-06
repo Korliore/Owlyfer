@@ -1,4 +1,4 @@
-from utils.settings_loader import LOG_PATH
+from utils.settings_loader import app_settings
 import traceback
 import datetime
 import os
@@ -6,6 +6,7 @@ import sys
 
 
 class Logger:
+    LOG_PATH = app_settings.log_path
 
     def error(ex: Exception):
         """Запись ошибки в лог и вывод в консоль
@@ -13,7 +14,7 @@ class Logger:
         Args:
             ex (Exception): исключение, сгенерированное ошибкой
         """
-        if os.path.isdir(LOG_PATH) != True:
+        if os.path.isdir() != True:
             os.mkdir(LOG_PATH)
         error = traceback.TracebackException(
             exc_type=type(ex), exc_traceback=ex.__traceback__, exc_value=ex
