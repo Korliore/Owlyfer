@@ -19,5 +19,5 @@ class AdminPostState(Base):
     admin_id: Mapped[int] = mapped_column(ForeignKey("admin.id"))
     admin: Mapped["Admin"] = relationship(back_populates="post_states")
 
-    post_id: Mapped[int] = mapped_column(ForeignKey("post.id"))
+    post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
     post: Mapped["Post"] = relationship(back_populates="admin_states")

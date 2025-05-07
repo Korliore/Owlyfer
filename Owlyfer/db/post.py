@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class Post(Base):
-    __tablename__ = "post"
+    __tablename__ = "posts"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     text: Mapped[str]
@@ -25,10 +25,10 @@ class Post(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
     admin_states: Mapped[List["AdminPostState"]] = relationship(
-        back_populates="post",
+        back_populates="posts",
         cascade="all, delete-orphan",
     )
     files: Mapped[List["PostFile"]] = relationship(
-        back_populates="post",
+        back_populates="posts",
         cascade="all, delete-orphan",
     )

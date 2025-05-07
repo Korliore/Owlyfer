@@ -1,9 +1,10 @@
 import sqlite3
 import datetime
 
-from utils.settings_loader import DB_PATH
+from utils.settings_loader import AppSettings
 from utils.log_worker import Logger
 
+DB_PATH = AppSettings.db_path
 
 class DBWorker:
 

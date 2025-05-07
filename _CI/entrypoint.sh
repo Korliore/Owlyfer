@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd /code/owlyfer/
+cd /code/Owlyfer/
 python3 main.py

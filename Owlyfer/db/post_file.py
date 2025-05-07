@@ -14,7 +14,7 @@ class PostFile(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 
-    post_id: Mapped[int] = mapped_column(ForeignKey("post.id"))
+    post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
     post: Mapped["Post"] = relationship(back_populates="files")
 
     file_type: Mapped[str]

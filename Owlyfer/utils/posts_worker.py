@@ -15,7 +15,7 @@ from aiogram.filters.callback_data import CallbackData
 
 from bot.loader import bot, db
 from utils.log_worker import Logger
-from utils.settings_loader import CHANNEL_ID
+from utils.settings_loader import app_settings
 
 
 class post_vote(CallbackData, prefix="pv"):
@@ -140,9 +140,9 @@ async def send_post_to_channel(post_id: int, disable_notification: bool = True):
         )
     media_group = await create_media_group_to_post(post_id, post_text)
     if media_group == None:
-        await bot.send_message(CHANNEL_ID, post_text, disable_notification=disable_notification)
+        await bot.send_message(app_settings.channel_id, post_text, disable_notification=disable_notification)
     else:
-        await bot.send_media_group(CHANNEL_ID, media_group, disable_notification=disable_notification)
+        await bot.send_media_group(app_settings.channel_id, media_group, disable_notification=disable_notification)
     db.Posts.delete(post_id)
 
 

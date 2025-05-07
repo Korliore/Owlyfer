@@ -1,36 +1,35 @@
-import os
 from pydantic import Field, PostgresDsn
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
-
 class Telegram(BaseSettings):
-    bot_token: str = Field(..., env="TELEGRAM_BOT_TOKEN")
-    channel_id: str = Field(..., env="TELEGRAM_CHANNEL_ID")
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    bot_token: str = Field(..., alias="TELEGRAM_BOT_TOKEN")
+    channel_id: str = Field(..., alias="TELEGRAM_CHANNEL_ID")
 
 
 class MongoDB(BaseSettings):
-    host: str = Field(..., env="mongo_host")
-    port: int = Field(..., env="mongo_port")
-    username: Optional[str] = Field(None, env="mongo_username")
-    password: Optional[str] = Field(None, env="mongo_password")
-    db_name: str = Field(..., env="mongo_db")
-
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    host: str = Field(..., alias="MONGO_INITDB_ROOT_HOST")
+    port: int = Field(..., alias="MONGO_PORT")
+    username: Optional[str] = Field(None, alias="MONGO_INITDB_ROOT_USERNAME")
+    password: Optional[str] = Field(None, alias="MONGO_INITDB_ROOT_PASSWORD")
+    db_name: str = Field(..., alias="MONGO_INITDB_DATABASE")
 
 
-class AppSettings(BaseSettings):
+class AppSettings():
     log_path: str = "logs/"
     db_path: str = "database.db"
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+
+class Postgres(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    host: str = Field(..., alias="POSTGRES_HOST")
+    port: int = Field(..., alias="POSTGRES_PORT")
+    username: Optional[str] = Field(None, alias="POSTGRES_USER")
+    password: Optional[str] = Field(None, alias="POSTGRES_PASSWORD")
+    db_name: str = Field(..., alias="POSTGRES_DB")
+
 
 
 try:
